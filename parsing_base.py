@@ -3,6 +3,7 @@ import sys
 import os
 import asyncio, aiohttp
 from urllib.parse import unquote, quote
+import xlwt
 
 
 class Parser:
@@ -16,6 +17,14 @@ class Parser:
             os.mkdir('html_files')
         with open(f'{self.html_files_catlog_name}/{file_name}', 'w', encoding='utf8') as file:
             file.write(txt)
+
+    def save_excel(self, data, file_name):
+        wb = xlwt.Workbook()
+        ws = wb.add_sheet('sheet')
+        for row in range(len(data)):
+            for column in range(len(data[row])):
+                ws.write(row, column, data[row][column])
+        wb.save(file_name)
 
     def save_image(self, url, image_name):
         resp = self.request.get(url)
